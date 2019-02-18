@@ -1,1 +1,2 @@
-# Neo-Workshop-CloudFormation
+# Neo-DevCon-Seattle-Workshop-CloudFormation
+
