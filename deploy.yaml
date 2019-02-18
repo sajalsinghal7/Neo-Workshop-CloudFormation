@@ -5,7 +5,7 @@
       Type: AWS::EC2::KeyPair::KeyName
       Description: >-
         Name of an existing EC2 KeyPair to enable SSH access to the instance
-      Default: neo-host
+      Default: <your_existing_key_name>
   Resources: 
     EC2Instance:
       Type: AWS::EC2::Instance                     
@@ -20,7 +20,7 @@
         KeyName: !Ref KeyName
         Tags: 
           - Key: Name
-            Value: <your_existing_key_name>
+            Value: MyNeoNet
         SecurityGroups:
           - !Ref MySecurityGroup
         UserData:
