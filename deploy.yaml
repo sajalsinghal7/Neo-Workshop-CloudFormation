@@ -55,4 +55,4 @@
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
-          CidrIp: 0.0.0.0/32 # your ip address
+          CidrIp: 0.0.0.0/0 # your ip address
