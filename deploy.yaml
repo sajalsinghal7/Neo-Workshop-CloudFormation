@@ -1,0 +1,58 @@
+---  
+  AWSTemplateFormatVersion: 2010-09-09
+  Parameters:
+    KeyName:
+      Type: AWS::EC2::KeyPair::KeyName
+      Description: >-
+        Name of an existing EC2 KeyPair to enable SSH access to the instance
+      Default: neo-host
+  Resources: 
+    EC2Instance:
+      Type: AWS::EC2::Instance                     
+      Properties:
+        BlockDeviceMappings:
+          - DeviceName: "/dev/sda1"
+            Ebs:
+              VolumeSize: 30
+              VolumeType: gp2
+        ImageId: ami-063aa838bd7631e0b # this could change with an update
+        InstanceType: t2.medium # adjust to save money
+        KeyName: !Ref KeyName
+        Tags: 
+          - Key: Name
+            Value: MyNeoNet
+        SecurityGroups:
+          - !Ref MySecurityGroup
+        UserData:
+          Fn::Base64:
+            !Sub |
+                #!/bin/bash -ex
+                sudo git clone https://github.com/pyraven/Neo-Workshop-CloudFormation;
+                cd Neo-Workshop-CloudFormation;
+                sudo chmod +x build.sh;
+                sudo ./build.sh;
+    MySecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Open necessary ports
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '30333'
+          ToPort: '30336'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '20333'
+          ToPort: '20336'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '4000'
+          ToPort: '4000'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '4002'
+          ToPort: '4002'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/32 # your ip address
