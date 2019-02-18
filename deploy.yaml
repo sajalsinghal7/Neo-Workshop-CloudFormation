@@ -15,12 +15,12 @@
             Ebs:
               VolumeSize: 30
               VolumeType: gp2
-        ImageId: ami-063aa838bd7631e0b # this could change with an update
-        InstanceType: t2.medium # adjust to save money
+        ImageId: ami-063aa838bd7631e0b # this could change with an update and break
+        InstanceType: t2.medium
         KeyName: !Ref KeyName
         Tags: 
           - Key: Name
-            Value: MyNeoNet
+            Value: <your_existing_key_name>
         SecurityGroups:
           - !Ref MySecurityGroup
         UserData:
@@ -55,4 +55,4 @@
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
-          CidrIp: 0.0.0.0/0 # your ip address
+          CidrIp: <your_ip_address/32>
